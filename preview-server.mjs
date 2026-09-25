@@ -1,0 +1,4 @@
+// Internal supervised QA only. Not part of the delivered localhost app.
+import http from 'node:http';import fs from 'node:fs';import path from 'node:path';
+const root=path.resolve('docs');const args=process.argv;const i=args.indexOf('--port');const port=Number(i>=0?args[i+1]:process.env.PORT||4173);
+http.createServer((req,res)=>{const name=decodeURIComponent(new URL(req.url,'http://localhost').pathname);const file=path.resolve(root,'.'+(name==='/'?'/index.html':name));if(!file.startsWith(root+path.sep)){res.writeHead(403);res.end();return;}const type={'.html':'text/html','.js':'text/javascript','.mjs':'text/javascript','.css':'text/css','.json':'application/json'}[path.extname(file)]||'application/octet-stream';fs.readFile(file,(e,bytes)=>{if(e){res.writeHead(404);res.end();return;}res.writeHead(200,{'Content-Type':type,'Cache-Control':'no-cache'});res.end(bytes);});}).listen(port,'0.0.0.0',()=>console.log(`Preview ready at http://0.0.0.0:${port}`));
