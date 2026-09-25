@@ -1,6 +1,6 @@
 import {sha256} from './sha256.js';
-import * as pdfjs from './vendor/pdf.mjs';
-pdfjs.GlobalWorkerOptions.workerSrc=new URL('./vendor/pdf.worker.mjs',import.meta.url).href;
+import * as pdfjs from './pdf.mjs';
+pdfjs.GlobalWorkerOptions.workerSrc=new URL('./pdf.worker.mjs',import.meta.url).href;
 const ligatures={'0.557129':'ti','0.634277':'tt','0.615723':'ft','0.855957':'tt'};
 const pageCache=new Map(),textCache=new Map();const documents=new Map();
 export async function loadPDF(bytes,metadata){const hash=globalThis.crypto?.subtle?[...new Uint8Array(await crypto.subtle.digest('SHA-256',bytes))].map(v=>v.toString(16).padStart(2,'0')).join(''):sha256(bytes);if(hash!==metadata.sha256)throw Error(`This PDF does not match ${metadata.sourceFile}. Select the original ${metadata.pdfPages}-page project file; a modified edition has different page mappings.`);const documentPDF=await pdfjs.getDocument({data:new Uint8Array(bytes.slice(0)),isEvalSupported:false,useSystemFonts:true}).promise;if(documentPDF.numPages!==metadata.pdfPages)throw Error('The PDF page count differs from the mapped edition.');documents.set(metadata.book,documentPDF);pageCache.clear();textCache.clear();return documentPDF;}
