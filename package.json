@@ -1,0 +1,15 @@
+{
+  "name": "mse250-study-desk",
+  "private": true,
+  "version": "2.0.0",
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/core.test.mjs",
+    "validate": "node tests/validate-exams.mjs",
+    "dev": "node scripts/preview-server.mjs",
+    "test:ui": "node --experimental-vm-modules tests/all-exams.test.mjs"
+  },
+  "devDependencies": {
+    "linkedom": "0.18.12"
+  }
+}
