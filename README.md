@@ -1,4 +1,4 @@
-# MSE250 — upload these files together
+# Material Science — upload these files together
 
 1. Extract this ZIP and open the extracted folder.
 2. GitHub repository → Add file → Upload files → Choose your files.
